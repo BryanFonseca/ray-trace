@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@jest/globals": "^29.5.0",
     "@types/node": "^18.16.1",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.0.4"

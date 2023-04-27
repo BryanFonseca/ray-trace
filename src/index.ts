@@ -1,4 +1,6 @@
 // import { equal } from "./helpers/equal";
+import fs from 'fs/promises';
+import { Canvas } from "./canvas";
 import { Point, Tuple, Vector } from "./tuples";
 // 
 // const a = 0.3;
@@ -48,15 +50,18 @@ let projectile: Projectile = {
     velocity: (new Vector(1, 1, 0)).normalize()
 };
 
-console.log(`X: ${projectile.position.x} Y: ${projectile.position.y}`);
 
 function loop() {
+    console.log(`X: ${projectile.position.x} Y: ${projectile.position.y}`);
     const timeoutId = setTimeout(() => {
         if (projectile.position.y <= 0) return;
         projectile = tick(environment, projectile);
-        console.log(`X: ${projectile.position.x} Y: ${projectile.position.y}`);
         loop();
     }, 100);
 }
 
-loop();
+// loop();
+// const c = new Canvas(5, 3);
+// console.log(c.toPPM());
+// 
+// fs.writeFile('./test.ppm', c.toPPM());

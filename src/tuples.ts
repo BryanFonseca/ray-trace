@@ -31,7 +31,15 @@ export class Tuple {
     }
 
     // TODO: refactor to use rest operator
-    add(other: Tuple): Tuple {
+    add(other: Tuple): Tuple | Vector | Point {
+        // Si se suma un punto con un vector, se tiene un punto
+        // Si se suma un vector con otro vector, se tiene un vector
+        // Si se suma un punto con un punto, se tiene una tupla
+
+        // Se suman contrarios, siempre se tiene un punto (w es 1 en uno de ellos)
+        // Se suman iguales:
+        //  puntos: neither (w en ambos es 1)
+        //  vectores: vector (w en ambos es 0)
         const x = this.x + other.x;
         const y = this.y + other.y;
         const z = this.z + other.z;
@@ -81,11 +89,37 @@ export class Point extends Tuple {
     constructor(x: number, y: number, z: number) {
         super(x, y, z, 1);
     }
+
+    add(vector: Vector): Point 
+    add(point: Point): Tuple
+    add(tuple: Point | Vector): Point | Vector {
+        const added = super.add(tuple);
+        if (added instanceof Point) {
+            return new Tuple(added.x, added.y, added.z, added.w);
+        } else if (added instanceof Vector) {
+            return new Point(added.x, added.y, added.z);
+        } else {
+            throw new Error('Incompatible type');
+        }
+    }
 }
 
 export class Vector extends Tuple {
     constructor(x: number, y: number, z: number) {
         super(x, y, z, 0);
+    }
+
+    add(vector: Vector): Vector;
+    add(point: Point): Point;
+    add(tuple: Point | Vector): Point | Vector{
+        const added = super.add(tuple);
+        if (tuple instanceof Point) {
+            return new Point(added.x, added.y, added.z);
+        } else if (tuple instanceof Vector) {
+            return new Vector(added.x, added.y, added.z);
+        } else {
+            throw new Error('Invalid type');
+        }
     }
 
     // TODO: make this a getter

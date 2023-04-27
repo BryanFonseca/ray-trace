@@ -20,8 +20,8 @@ const r = identity('hola');
 // Chapter 1 experiment
 
 interface Projectile {
-    position: Tuple,
-    velocity: Tuple
+    position: Point,
+    velocity: Vector
 }
 
 interface Environment {
@@ -35,8 +35,8 @@ const environment = {
 };
 
 function tick(environment: Environment, projectile: Projectile) {
-    const position = projectile.position.add(projectile.velocity);
-    const velocity = projectile.velocity.add(environment.gravity).add(environment.wind);
+    const position = projectile.position.add(projectile.velocity); // debe inferirse que se retornará un punto
+    const velocity = projectile.velocity.add(environment.gravity).add(environment.wind); // debe inferirse que se retornará un vector
     return {
         position,
         velocity

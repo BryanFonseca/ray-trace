@@ -122,6 +122,11 @@ export class Vector extends Tuple {
         }
     }
 
+    multiply(scalar: number): Vector {
+        const tupleResult = super.multiply(scalar);
+        return new Vector(tupleResult.x, tupleResult.y, tupleResult.z);
+    }
+
     // TODO: make this a getter
     magnitude() {
         return Math.sqrt(this.x ** 2 + this.y ** 2 + this.z ** 2);

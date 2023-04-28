@@ -13,9 +13,6 @@ describe('Canvas', () => {
                 expect(pixel).toEqual(black);
             }
         }
-
-        // c.pixels[0][1] = new Color(1, 1, 1);
-        // console.log(c.pixels);
     });
 
     test('Writing pixels to a canvas', () => {
@@ -51,8 +48,8 @@ describe('Canvas', () => {
         c.writePixel(4, 2, c3);
 
         const ppm = c.toPPM();
-        const lines = ppm.split('\n').slice(3);
-        console.log(lines);
+        const lines = ppm.split('\n').slice(3, 6);
+        // Lines 4-6 of ppm are
         expect(lines).toEqual(
             [
                 '255 0 0 0 0 0 0 0 0 0 0 0 0 0 0',
@@ -71,7 +68,8 @@ describe('Canvas', () => {
             }
         }
         const ppm = c.toPPM();
-        const lines = ppm.split('\n').slice(3);
+        const lines = ppm.split('\n').slice(3, 7);
+        // Lines 4-7 of ppm are
         expect(lines).toEqual(
             [
                 '255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204',
@@ -81,8 +79,11 @@ describe('Canvas', () => {
             ]
         )
     });
-});
 
-/*
-(0, 0, 0), (0, 0, 0), (0, 0, 0), (0, 0, 0), (0, 0, 0),
-*/
+    test('PPM files are terminated by a newline character', () => {
+        const c = new Canvas(5, 3);
+        const ppm = c.toPPM();
+        const lastCharacter = ppm[ppm.length - 1];
+        expect(lastCharacter).toBe('\n');
+    });
+});

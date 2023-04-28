@@ -1,5 +1,12 @@
 import { Color } from "./colors";
 
+function replaceCharAt(str: string, index: number, newChar: string) {
+    if (index < 0 || index >= str.length) {
+        return str;
+    }
+    return str.substring(0, index) + newChar + str.substring(index + 1);
+}
+
 export class Canvas {
     width: number;
     height: number;
@@ -16,6 +23,7 @@ export class Canvas {
 
     writePixel(x: number, y: number, color: Color) {
         // Maybe check bounds
+        if (x > this.width || y > this.height) return;
         this.pixels[x][y] = color;
     }
 
@@ -23,8 +31,9 @@ export class Canvas {
         return this.pixels[x][y];
     }
 
-    // First three lines are the header
+    // TODO: abstract away some of this logic
     toPPM() {
+        // First three lines are the header
         const header = [
             `P3`,
             `${this.width} ${this.height}`,
@@ -41,7 +50,22 @@ export class Canvas {
             pixelData.push(line.join(' '));
         }
 
-        return header.join('\n') + '\n' + pixelData.join('\n');
+        const splittedLines: string[] = [];
+        for (const line of pixelData) {
+            let offset = 0;
+            let newString = line;
+            while (offset + 70 < line.length) {
+                let oldOffset = offset;
+                for (let i = offset; i < oldOffset + 70; i++) {
+                    if (line[i] === ' ' && i <= oldOffset + 70) {
+                        offset = i;
+                    }
+                }
+                newString = replaceCharAt(newString, offset, '\n');
+            }
+            splittedLines.push(newString);
+        }
+        return header.join('\n') + '\n' + splittedLines.join('\n') + '\n';
     }
 
     formatPixel(red: number, green: number, blue: number) {

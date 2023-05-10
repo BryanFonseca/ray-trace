@@ -74,4 +74,26 @@ describe('Matrix tests', () => {
         );
         expect(A.equals(B)).toBe(false);
     });
+
+    test('Multiplying two matrices', () => {
+        const A = new Matrix(
+            [1, 2, 3, 4],
+            [5, 6, 7, 8],
+            [9, 8, 7, 6],
+            [5, 4, 3, 2],
+        );
+        const B = new Matrix(
+            [-2, 1, 2, 3],
+            [3, 2, 1, -1],
+            [4, 3, 6, 5],
+            [1, 2, 7, 8],
+        );
+        const result = new Matrix(
+            [20, 22, 50, 48],
+            [44, 54, 114, 108],
+            [40, 58, 110, 102],
+            [16, 26, 46, 42],
+        );
+        expect(A.multiply(B).equals(result)).toBe(true);
+    });
 });

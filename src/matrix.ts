@@ -25,4 +25,20 @@ export default class Matrix {
         }
         return areEqual;
     }
+
+    multiply(otherMatrix: Matrix) {
+        const rows: number[][] = [];
+        for (let i = 0; i < this.matrix[0].length; i++) {
+            const row: number[] = [];
+            for (let j = 0; j < this.matrix.length; j++) {
+                let result = 0;
+                for (let w = 0; w < this.matrix.length; w++) {
+                    result += this.matrix[i][w] * otherMatrix.matrix[w][j];
+                }
+                row.push(result);
+            }
+            rows.push(row);
+        }
+        return new Matrix(...rows);
+    }
 }

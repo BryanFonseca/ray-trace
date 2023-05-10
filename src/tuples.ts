@@ -13,21 +13,21 @@ export class Tuple {
     y: number;
     z: number;
     w: number;
-    type: string;
+    // type: string;
+
+    static fromTuple(x: number, y: number, z: number, w: 1): Vector;
+    static fromTuple(x: number, y: number, z: number, w: 0): Point;
+    static fromTuple(x: number, y: number, z: number, w: number): Tuple | Vector | Point {
+        if (w === 1) return new Point(x, y, z);
+        if (w === 0) return new Vector(x, y, z);
+        return new Tuple(x, y, z, w);
+    }
 
     constructor(x: number, y: number, z: number, w: number) {
         this.x = x;
         this.y = y;
         this.z = z;
         this.w = w;
-
-        if (w === 1.0) {
-            this.type = "POINT";
-        } else if (w === 0) {
-            this.type = "VECTOR";
-        } else {
-            this.type = "BARE_TUPLE";
-        }
     }
 
     // TODO: refactor to use rest operator

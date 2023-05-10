@@ -112,3 +112,10 @@ const m = new Matrix(
     [1, 2, 3],
     [1, 2, 3]
 );
+
+const a = Tuple.fromTuple(1, 2, 3, 0);;
+console.log(a instanceof Point);
+console.log(a instanceof Vector);
+const b = Tuple.fromTuple(1, 2, 3, 1);
+console.log(b instanceof Point);
+console.log(b instanceof Vector);

@@ -3,23 +3,23 @@ import '../areTuplesEqual';
 
 describe('Tuples/Points/Vectors creation', () => {
     test('A tuple with w=1.0 is a point', () => {
-        const a = new Tuple(4.3, -4.2, 3.1, 1.0);
+        const a = Tuple.fromTuple(4.3, -4.2, 3.1, 1.0);
         expect(a.x).toBe(4.3);
         expect(a.y).toBe(-4.2);
         expect(a.z).toBe(3.1);
         expect(a.w).toBe(1.0);
-        expect(a.type).toBe('POINT');
-        expect(a.type).not.toBe('VECTOR');
+        expect(a instanceof Point).toBe(true);
+        expect(a instanceof Vector).toBe(false);
     });
 
     test('A tuple with w=0 is a vector', () => {
-        const a = new Tuple(4.3, -4.2, 3.1, 0.0);
+        const a = Tuple.fromTuple(4.3, -4.2, 3.1, 0.0);
         expect(a.x).toBe(4.3);
         expect(a.y).toBe(-4.2);
         expect(a.z).toBe(3.1);
         expect(a.w).toBe(0.0);
-        expect(a.type).not.toBe('POINT');
-        expect(a.type).toBe('VECTOR');
+        expect(a instanceof Point).toBe(false);
+        expect(a instanceof Vector).toBe(true);
     });
 
     test('Point creates tuples with w=1', () => {

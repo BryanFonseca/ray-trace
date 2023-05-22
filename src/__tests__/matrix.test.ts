@@ -144,4 +144,148 @@ describe('Matrix tests', () => {
         );
         expect(A.determinant()).toEqual(17);
     });
+
+    test('A submatrix of a 3x3 matrix is a 2x2 matrix', () => {
+        const A = new Matrix(
+            [1, 5, 0],
+            [-3, 2, 7],
+            [0, 6, -3],
+        );
+        const submatrix = new Matrix(
+            [-3, 2],
+            [0, 6],
+        );
+        expect(A.submatrix(0, 2).equals(submatrix)).toBe(true);
+    });
+
+    test('A submatrix of a 4x4 matrix is a 3x3 matrix', () => {
+        const A = new Matrix(
+            [-6, 1, 1, 6],
+            [-8, 5, 8, 6],
+            [-1, 0, 8, 2],
+            [-7, 1, -1, 1],
+        );
+        const submatrix = new Matrix(
+            [-6, 1, 6],
+            [-8, 8, 6],
+            [-7, -1, 1],
+        );
+        expect(A.submatrix(2, 1).equals(submatrix)).toBe(true);
+    });
+
+    test('Calculating a minor of a 3x3 matrix', () => {
+        const A = new Matrix(
+            [3, 5, 0],
+            [2, -1, -7],
+            [6, -1, 5],
+        );
+        const B = A.submatrix(1, 0);
+        expect(B.determinant()).toEqual(25);
+        expect(A.minor(1, 0)).toBe(25);
+    });
+
+    test('Calculating a cofactor of a 3x3 matrix', () => {
+        const A = new Matrix(
+            [3, 5, 0],
+            [2, -1, -7],
+            [6, -1, 5],
+        );
+        expect(A.minor(0, 0)).toBe(-12);
+        expect(A.cofactor(0, 0)).toBe(-12);
+        expect(A.minor(1, 0)).toBe(25);
+        expect(A.cofactor(1, 0)).toBe(-25);
+    });
+
+    test('Calculating the determinant of a 3x3 matrix', () => {
+        const A = new Matrix(
+            [1, 2, 6],
+            [-5, 8, -4],
+            [2, 6, 4]
+        );
+        expect(A.cofactor(0, 0)).toBe(56);
+        expect(A.cofactor(0, 1)).toBe(12);
+        expect(A.cofactor(0, 2)).toBe(-46);
+        expect(A.determinant()).toBe(-196);
+    });
+
+    test('Calculating the determinant of a 4x4 matrix', () => {
+        const A = new Matrix(
+            [-2, -8, 3, 5],
+            [-3, 1, 7, 3],
+            [1, 2, -9, 6],
+            [-6, 7, 7, -9],
+        );
+        expect(A.cofactor(0, 0)).toBe(690);
+        expect(A.cofactor(0, 1)).toBe(447);
+        expect(A.cofactor(0, 2)).toBe(210);
+        expect(A.cofactor(0, 3)).toBe(51);
+        expect(A.determinant()).toBe(-4071);
+    });
+
+    test('Testing an invertible matrix for invertibility', () => {
+        const A = new Matrix(
+            [6, 4, 4, 4],
+            [5, 5, 7, 6],
+            [4, -9, 3, -7],
+            [9, 1, 7, -6],
+        );
+        expect(A.isInvertible).toEqual(true);
+    });
+
+    test('Testing a noninvertible matrix for invertibility', () => {
+        const A = new Matrix(
+            [-4, 2, -2, -3],
+            [9, 6, 2, 6],
+            [0, -5, 1, -5],
+            [0, 0, 0, 0],
+        );
+        expect(A.isInvertible).toEqual(false);
+    });
+
+    test('Calculating the inverse of a matrix', () => {
+        const A = new Matrix(
+            [-5, 2, 6, -8],
+            [1, -5, 1, 8],
+            [7, 7, -6, -7],
+            [1, -3, 7, 4],
+        );
+
+        const inverse = new Matrix(
+            [0.21805, 0.45113, 0.24060, -0.04511],
+            [-0.80827, -1.45677, -0.44361, 0.52068],
+            [-0.07895, -0.22368, -0.05263, 0.19737],
+            [-0.52256, -0.81391, -0.30075, 0.30639],
+        );
+
+        const B = A.inverse();
+
+        expect(A.determinant()).toEqual(532);
+        expect(A.cofactor(2, 3)).toEqual(-160);
+        expect(B.matrix[3][2]).toEqual(-160 / 532);
+        expect(A.cofactor(3, 2)).toEqual(105);
+        expect(B.matrix[2][3]).toEqual(105/532);
+        expect(B.matrix[2][3]).toEqual(105/532);
+        expect(B.equals(inverse)).toBe(true);
+    });
+
+    // TODO: Add more tests for inversing
+
+    test('Multiplying a product by its inverse', () => {
+        const A = new Matrix(
+            [3, -9, 7, 3],
+            [3, -8, 2, -9],
+            [-4, 4, 4, 1],
+            [-6, 5, -1, 1],
+        );
+
+        const B = new Matrix(
+            [8, 2, 2, 2],
+            [3, -1, 7, 0],
+            [7, 0, 5, 4],
+            [6, -2, 0, 5],
+        );
+
+        const C = A.multiply(B); // C = A * B
+        expect(C.multiply(B.inverse()).equals(A)).toBe(true);
+    });
 });

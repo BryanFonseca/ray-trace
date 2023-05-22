@@ -6,7 +6,7 @@
   "scripts": {
     "start": "ts-node-dev --respawn src/index.ts",
     "start:debug": "ts-node-dev --inspect=0.0.0.0 src/index.ts",
-    "test": "jest"
+    "test": "jest --watch-all"
   },
   "keywords": [],
   "author": "",

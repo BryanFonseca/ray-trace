@@ -1,8 +1,9 @@
+import { test, expect, describe } from "vitest";
 import { Canvas } from "../canvas";
 import { Color } from "../colors";
 
-describe('Canvas', () => {
-    test('Creating a canvas', () => {
+describe("Canvas", () => {
+    test("Creating a canvas", () => {
         const c = new Canvas(3, 2);
         expect(c.width).toBe(3);
         expect(c.height).toBe(2);
@@ -15,7 +16,7 @@ describe('Canvas', () => {
         }
     });
 
-    test('Writing pixels to a canvas', () => {
+    test("Writing pixels to a canvas", () => {
         const c = new Canvas(10, 20);
         const red = new Color(1, 0, 0);
         c.writePixel(2, 3, red);
@@ -23,21 +24,15 @@ describe('Canvas', () => {
         expect(c.pixels[2][3]).toEqual(red);
     });
 
-    test('Constructing the PPM header', () => {
+    test("Constructing the PPM header", () => {
         const c = new Canvas(5, 3);
         const ppm = c.toPPM();
         // the headers corresponds to the first three lines
-        const lines = ppm.split('\n').slice(0, 3);
-        expect(lines).toEqual(
-            [
-                'P3',
-                '5 3',
-                '255',
-            ]
-        )
+        const lines = ppm.split("\n").slice(0, 3);
+        expect(lines).toEqual(["P3", "5 3", "255"]);
     });
 
-    test('Constructing the PPM pixel data', () => {
+    test("Constructing the PPM pixel data", () => {
         const c = new Canvas(5, 3);
         const c1 = new Color(1.5, 0, 0);
         const c2 = new Color(0, 0.5, 0);
@@ -48,18 +43,16 @@ describe('Canvas', () => {
         c.writePixel(4, 2, c3);
 
         const ppm = c.toPPM();
-        const lines = ppm.split('\n').slice(3, 6);
+        const lines = ppm.split("\n").slice(3, 6);
         // Lines 4-6 of ppm are
-        expect(lines).toEqual(
-            [
-                '255 0 0 0 0 0 0 0 0 0 0 0 0 0 0',
-                '0 0 0 0 0 0 0 128 0 0 0 0 0 0 0',
-                '0 0 0 0 0 0 0 0 0 0 0 0 0 0 255',
-            ]
-        )
+        expect(lines).toEqual([
+            "255 0 0 0 0 0 0 0 0 0 0 0 0 0 0",
+            "0 0 0 0 0 0 0 128 0 0 0 0 0 0 0",
+            "0 0 0 0 0 0 0 0 0 0 0 0 0 0 255",
+        ]);
     });
 
-    test('Splitting long lines in PPM files', () => {
+    test("Splitting long lines in PPM files", () => {
         const c = new Canvas(10, 2);
         const color = new Color(1, 0.8, 0.6);
         for (let i = 0; i < 10; i++) {
@@ -68,22 +61,20 @@ describe('Canvas', () => {
             }
         }
         const ppm = c.toPPM();
-        const lines = ppm.split('\n').slice(3, 7);
+        const lines = ppm.split("\n").slice(3, 7);
         // Lines 4-7 of ppm are
-        expect(lines).toEqual(
-            [
-                '255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204',
-                '153 255 204 153 255 204 153 255 204 153 255 204 153',
-                '255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204',
-                '153 255 204 153 255 204 153 255 204 153 255 204 153'
-            ]
-        )
+        expect(lines).toEqual([
+            "255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204",
+            "153 255 204 153 255 204 153 255 204 153 255 204 153",
+            "255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204",
+            "153 255 204 153 255 204 153 255 204 153 255 204 153",
+        ]);
     });
 
-    test('PPM files are terminated by a newline character', () => {
+    test("PPM files are terminated by a newline character", () => {
         const c = new Canvas(5, 3);
         const ppm = c.toPPM();
         const lastCharacter = ppm[ppm.length - 1];
-        expect(lastCharacter).toBe('\n');
+        expect(lastCharacter).toBe("\n");
     });
 });

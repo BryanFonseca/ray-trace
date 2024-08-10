@@ -1,4 +1,4 @@
-import {expect} from '@jest/globals';
-import { equal } from './helpers/equal';
+import { expect } from "vitest";
+import { equal } from "./helpers/equal";
 
 expect.addEqualityTesters([equal]);
